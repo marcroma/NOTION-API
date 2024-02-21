@@ -2,6 +2,8 @@
   "dependencies": {
     "@notionhq/client": "^2.2.14",
     "axios": "^1.6.7",
-    "json-server": "^1.0.0-alpha.23"
+    "dotenv": "^16.4.5",
+    "json-server": "^1.0.0-alpha.23",
+    "node": "^21.6.2"
   }
 }
