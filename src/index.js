@@ -8,7 +8,7 @@ const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
 // =================================================================
 
-// FUNCTION DEFINITIONS ============================================
+// GET INFO FUNCTION DEFINITIONS ============================================
 
 // Universal Function to Get Data from X ---------------------------
 
@@ -25,23 +25,23 @@ const getDataFromX = async (databaseId) => {
   }
 };
 
-// Get Data from Home Page from Notion -----------------------------
-const getDataFromHome = async () => {
+// Get Data from Calendar DB from Notion -----------------------------
+const getDataFromCalendar = async () => {
   try {
-    const response = await getDataFromX(process.env.NOTION_HOME_ID);
+    const response = await getDataFromX(process.env.NOTION_CALENDAR_ID);
 
-    // console.log(response);
+    console.log(response);
     return response;
   } catch (error) {
     console.error(error);
   }
 };
 
-getDataFromHome();
+getDataFromCalendar();
 
 // -----------------------------------------------------------------
 
-// Get Alll Projects from Notion ----------------------------
+// Get All Projects from Notion ----------------------------
 
 const getAllProjects = async () => {
   try {
@@ -65,17 +65,132 @@ const getProjectNames = async () => {
     const response = await getDataFromX(process.env.NOTION_PROJECTS_ID);
 
     const projectNames = response.map((project) => {
+      // console.log(project);
       return project.properties.Name.title[0].plain_text;
     });
 
     console.log(projectNames);
     return projectNames;
-    
   } catch (error) {
     console.error(error);
   }
 };
 
-getProjectNames();
+// getProjectNames();
+
+// -----------------------------------------------------------------
 
 // =================================================================
+
+// POST INFO FUNCTION DEFINITIONS ============================================
+
+// Create an Entry in the Calendar in Notion ----------------------------
+
+const createPageInCalendar = async () => {
+  try {
+    const response = await notion.pages.create({
+      parent: {
+        type: "database_id",
+        database_id: "d4bf5a7006184e789e99fd942de19090",
+      },
+      icon: {
+        type: "emoji",
+        emoji: "🏗",
+      },
+      properties: {
+        Name: {
+          title: [
+            {
+              text: {
+                content: "Test",
+              },
+            },
+          ],
+        },
+        Date: {
+          date: {
+            start: "2024-02-25",
+            end: "2024-02-27",
+          },
+        },
+      },
+    });
+
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// createPageInCalendar();
+
+// -----------------------------------------------------------------
+
+// Get Page ID where Name equals Parameter ----------------------------
+const getPageId = async (name) => {
+  try {
+    const response = await getDataFromCalendar();
+
+    const pageId = response.filter((page) => {
+      return page.properties.Name.title[0].plain_text === name;
+    })[0].id;
+
+    console.log(pageId);
+    return pageId;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// ---------------------------------------------------------------------
+
+// Edit the Entry in the Calendar in Notion ----------------------------
+const updatePageInCalendar = async (name) => {
+  try {
+    const response = await notion.pages.update({
+      page_id: await getPageId(name),
+      properties: {
+        Name: {
+          title: [
+            {
+              text: {
+                content: "Test Edited",
+              },
+            },
+          ],
+        },
+        Date: {
+          date: {
+            start: "2024-02-25",
+            end: "2024-02-27",
+          },
+        },
+      },
+    });
+
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// updatePageInCalendar("Test");
+
+// -----------------------------------------------------------------
+
+// Delete an Entry in the Calendar in Notion where Name matches Parameter ------------------------
+const deletePageInCalendar = async (name) => {
+  try {
+    const response = await notion.pages.update({
+      page_id: await getPageId(name),
+      archived: true,
+    });
+
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+deletePageInCalendar("Test Edited");
+
