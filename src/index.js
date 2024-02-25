@@ -37,7 +37,7 @@ const getDataFromCalendar = async () => {
   }
 };
 
-getDataFromCalendar();
+// getDataFromCalendar();
 
 // -----------------------------------------------------------------
 
@@ -192,5 +192,5 @@ const deletePageInCalendar = async (name) => {
   }
 };
 
-deletePageInCalendar("Test Edited");
+// deletePageInCalendar("Test Edited");
 
