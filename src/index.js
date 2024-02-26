@@ -8,7 +8,7 @@ const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
 // =================================================================
 
-// GET INFO FUNCTION DEFINITIONS ============================================
+// GET INFO FUNCTION DEFINITIONS ===================================
 
 // Universal Function to Get Data from X ---------------------------
 
@@ -41,7 +41,7 @@ const getDataFromCalendar = async () => {
 
 // -----------------------------------------------------------------
 
-// Get All Projects from Notion ----------------------------
+// Get All Projects from Notion ------------------------------------
 
 const getAllProjects = async () => {
   try {
@@ -82,9 +82,9 @@ const getProjectNames = async () => {
 
 // =================================================================
 
-// POST INFO FUNCTION DEFINITIONS ============================================
+// POST INFO FUNCTION DEFINITIONS ==================================
 
-// Create an Entry in the Calendar in Notion ----------------------------
+// Create an Entry in the Calendar in Notion -----------------------
 
 const createPageInCalendar = async () => {
   try {
@@ -109,8 +109,8 @@ const createPageInCalendar = async () => {
         },
         Date: {
           date: {
-            start: "2024-02-25",
-            end: "2024-02-27",
+            start: "2024-02-26",
+            end: "2024-02-29",
           },
         },
       },
@@ -126,7 +126,7 @@ const createPageInCalendar = async () => {
 
 // -----------------------------------------------------------------
 
-// Get Page ID where Name equals Parameter ----------------------------
+// Get Page ID where Name equals Parameter -------------------------
 const getPageId = async (name) => {
   try {
     const response = await getDataFromCalendar();
@@ -161,8 +161,8 @@ const updatePageInCalendar = async (name) => {
         },
         Date: {
           date: {
-            start: "2024-02-25",
-            end: "2024-02-27",
+            start: "2024-02-27",
+            end: "2024-02-29",
           },
         },
       },
@@ -193,4 +193,3 @@ const deletePageInCalendar = async (name) => {
 };
 
 // deletePageInCalendar("Test Edited");
-
